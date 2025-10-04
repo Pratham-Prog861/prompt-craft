@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useUser } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,43 +19,52 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Bot, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { UserNav } from '@/components/auth/UserNav';
+import { useToast } from '@/hooks/use-toast';
+import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
 
-function Navbar() {
-  const { user, isUserLoading } = useUser();
-    return (
-    <header className="sticky top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
-            <Bot className="h-6 w-6" />
-            <span>WebGenius</span>
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-            {isUserLoading ? null : user ? (
-                <UserNav />
-            ) : (
-                <Link href="/login" passHref>
-                    <Button variant="outline">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Home
-                    </Button>
-                </Link>
-            )}
-        </div>
-      </nav>
-    </header>
-  );
-}
-
+type Theme = 'light' | 'dark' | 'system';
 
 export default function SettingsPage() {
+  const [theme, setTheme] = useState<Theme>('dark');
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme') as Theme | null;
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.classList.add(systemTheme);
+    } else {
+      root.classList.add(theme);
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+  
+  const handleSaveChanges = () => {
+    toast({
+        title: "Settings Saved",
+        description: "Your notification preferences have been updated."
+    })
+  }
+
+  const handleDeleteAccount = () => {
+    toast({
+        variant: "destructive",
+        title: "Feature not available",
+        description: "Account deletion is not yet implemented."
+    })
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-        <Navbar/>
+      <UserPagesNavbar/>
       <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="mx-auto max-w-4xl space-y-6">
            <div>
@@ -72,7 +82,7 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent>
               <form className="flex items-center space-x-2">
-                <Select defaultValue='dark'>
+                <Select value={theme} onValueChange={(value: Theme) => setTheme(value)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select theme" />
                   </SelectTrigger>
@@ -113,7 +123,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Save Preferences</Button>
+              <Button onClick={handleSaveChanges}>Save Preferences</Button>
             </CardFooter>
           </Card>
            <Card>
@@ -124,7 +134,7 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardFooter className="border-t pt-6">
-              <Button variant="destructive">Delete My Account</Button>
+              <Button variant="destructive" onClick={handleDeleteAccount}>Delete My Account</Button>
             </CardFooter>
           </Card>
         </div>

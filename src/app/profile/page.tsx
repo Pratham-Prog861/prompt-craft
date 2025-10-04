@@ -1,6 +1,8 @@
 'use client';
 
-import { useUser } from '@/firebase';
+import { useState } from 'react';
+import { useUser, useAuth } from '@/firebase';
+import { updateProfile } from 'firebase/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,44 +14,41 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { User as UserIcon, Bot, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { UserNav } from '@/components/auth/UserNav';
-
-function Navbar() {
-  const { user, isUserLoading } = useUser();
-    return (
-    <header className="sticky top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
-            <Bot className="h-6 w-6" />
-            <span>WebGenius</span>
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-            {isUserLoading ? null : user ? (
-                <UserNav />
-            ) : (
-                <Link href="/login" passHref>
-                    <Button variant="outline">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Home
-                    </Button>
-                </Link>
-            )}
-        </div>
-      </nav>
-    </header>
-  );
-}
+import { User as UserIcon } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
 
 export default function ProfilePage() {
   const { user } = useUser();
+  const auth = useAuth();
+  const { toast } = useToast();
+  const [displayName, setDisplayName] = useState(user?.displayName ?? '');
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveChanges = async () => {
+    if (!auth.currentUser) return;
+
+    setIsSaving(true);
+    try {
+      await updateProfile(auth.currentUser, { displayName });
+      toast({
+        title: 'Profile Updated',
+        description: 'Your display name has been successfully updated.',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error updating profile',
+        description: error.message,
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Navbar/>
+      <UserPagesNavbar />
       <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="mx-auto max-w-4xl space-y-6">
           <div>
@@ -76,15 +75,17 @@ export default function ProfilePage() {
                 </Avatar>
                 <div className="flex-1 space-y-2">
                    <Label>Profile Picture</Label>
-                   <Input type="file" />
-                   <p className="text-xs text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>
+                   <Input type="file" disabled />
+                   <p className="text-xs text-muted-foreground">Feature coming soon. JPG, GIF or PNG. 1MB max.</p>
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="displayName">Display Name</Label>
                 <Input
                   id="displayName"
-                  defaultValue={user?.displayName ?? ''}
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="Your display name"
                 />
               </div>
             </CardContent>
@@ -109,14 +110,17 @@ export default function ProfilePage() {
               </div>
               <div className="space-y-2">
                 <Label>Password</Label>
-                <Button variant="outline">Change Password</Button>
+                <Button variant="outline" disabled>Change Password</Button>
+                <p className="text-xs text-muted-foreground">Feature coming soon.</p>
               </div>
             </CardContent>
           </Card>
 
            <div className="flex justify-end gap-2">
               <Button variant="outline">Cancel</Button>
-              <Button>Save Changes</Button>
+              <Button onClick={handleSaveChanges} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Changes'}
+              </Button>
            </div>
         </div>
       </main>

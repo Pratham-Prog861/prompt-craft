@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Bot, CreditCard, DollarSign, Download, Zap } from 'lucide-react';
+import { CreditCard, DollarSign, Download, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -12,41 +12,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { UserNav } from '@/components/auth/UserNav';
-import { useUser } from '@/firebase';
-
-function Navbar() {
-  const { user, isUserLoading } = useUser();
-    return (
-    <header className="sticky top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
-            <Bot className="h-6 w-6" />
-            <span>WebGenius</span>
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-            {isUserLoading ? null : user ? (
-                <UserNav />
-            ) : (
-                <Link href="/login" passHref>
-                    <Button variant="outline">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Home
-                    </Button>
-                </Link>
-            )}
-        </div>
-      </nav>
-    </header>
-  );
-}
+import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
 
 export default function BillingPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <Navbar />
+      <UserPagesNavbar />
       <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="mx-auto grid max-w-6xl gap-6">
           <div className="space-y-2">
@@ -85,7 +56,9 @@ export default function BillingPage() {
                 </div>
               </CardContent>
               <div className="p-6 pt-0">
-                <Button className="w-full">Upgrade Plan</Button>
+                <Button className="w-full" asChild>
+                  <Link href="https://buy.stripe.com/test_5kA5lQ8o4g5T9YQfZ1" target="_blank">Upgrade Plan</Link>
+                </Button>
               </div>
             </Card>
             <Card>
@@ -104,7 +77,7 @@ export default function BillingPage() {
                       Expires 08/2026
                     </p>
                   </div>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" disabled>
                     Edit
                   </Button>
                 </div>
@@ -125,7 +98,7 @@ export default function BillingPage() {
                       Invoice #12345
                     </p>
                   </div>
-                  <Button variant="outline" size="icon">
+                  <Button variant="outline" size="icon" disabled>
                     <Download className="h-4 w-4" />
                     <span className="sr-only">Download invoice</span>
                   </Button>
@@ -138,7 +111,7 @@ export default function BillingPage() {
                       Invoice #12344
                     </p>
                   </div>
-                  <Button variant="outline" size="icon">
+                  <Button variant="outline" size="icon" disabled>
                     <Download className="h-4 w-4" />
                     <span className="sr-only">Download invoice</span>
                   </Button>
