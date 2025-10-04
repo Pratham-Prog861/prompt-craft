@@ -1,13 +1,13 @@
 "use client";
 
-import { PanelLeft, PanelRight, Bot, ArrowLeft } from 'lucide-react';
+import { PanelLeft, Bot, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useWebGeniusStore } from '@/store/useWebGeniusStore';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Link from 'next/link';
 
 export default function Header() {
-  const { toggleLeftPanel, toggleRightPanel } = useWebGeniusStore();
+  const { toggleLeftPanel } = useWebGeniusStore();
   const isMobile = useIsMobile();
   
   return (
@@ -43,10 +43,6 @@ export default function Header() {
                 </Button>
             </Link>
         )}
-        <Button variant="ghost" size="icon" onClick={toggleRightPanel}>
-          <PanelRight className="h-5 w-5" />
-          <span className="sr-only">Toggle Right Panel</span>
-        </Button>
       </div>
     </header>
   );
