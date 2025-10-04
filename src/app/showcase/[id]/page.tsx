@@ -106,7 +106,7 @@ function LivePreviewDialog({ prompt }: { prompt: string }) {
             Live Preview
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-4xl h-[80vh]">
+        <DialogContent className="max-w-[90vw] h-[90vh]">
           <DialogHeader>
             <DialogTitle>Live Preview</DialogTitle>
           </DialogHeader>
