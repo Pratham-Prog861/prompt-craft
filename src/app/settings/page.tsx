@@ -20,10 +20,17 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
+import { useEffect, useState } from 'react';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
 
   const handleSaveChanges = () => {
     toast({
@@ -38,6 +45,10 @@ export default function SettingsPage() {
         title: "Feature not available",
         description: "Account deletion is not yet implemented."
     })
+  }
+
+  if (!mounted) {
+    return null;
   }
 
   return (
