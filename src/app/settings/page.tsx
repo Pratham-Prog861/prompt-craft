@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useUser } from '@/firebase';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,31 +21,10 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
 
-type Theme = 'light' | 'dark' | 'system';
-
 export default function SettingsPage() {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const { theme, setTheme } = useTheme();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') as Theme | null;
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-  }, []);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.classList.add(systemTheme);
-    } else {
-      root.classList.add(theme);
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-  
   const handleSaveChanges = () => {
     toast({
         title: "Settings Saved",
@@ -82,7 +60,7 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent>
               <form className="flex items-center space-x-2">
-                <Select value={theme} onValueChange={(value: Theme) => setTheme(value)}>
+                <Select value={theme} onValueChange={(value: 'light' | 'dark' | 'system') => setTheme(value)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select theme" />
                   </SelectTrigger>
