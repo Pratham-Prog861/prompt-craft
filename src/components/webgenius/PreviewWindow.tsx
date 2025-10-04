@@ -1,6 +1,6 @@
 "use client";
 
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 

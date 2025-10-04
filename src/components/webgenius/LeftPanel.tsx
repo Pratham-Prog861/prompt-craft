@@ -1,6 +1,6 @@
 "use client";
 
-import ChatArea from '@/components/PromptCraft/ChatArea';
+import ChatArea from '@/components/webgenius/ChatArea';
 
 export default function LeftPanel() {
   return (

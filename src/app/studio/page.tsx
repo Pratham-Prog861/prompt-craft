@@ -2,8 +2,8 @@
 
 import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import PromptCraftApp from '@/components/PromptCraft/PromptCraftApp';
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import WebGeniusApp from '@/components/webgenius/WebGeniusApp';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
 
 function StudioPageContent() {
   const searchParams = useSearchParams();
@@ -23,7 +23,7 @@ function StudioPageContent() {
     }
   }, [searchParams, processPrompt, loadProject, messages.length, projectIdStore]);
 
-  return <PromptCraftApp />;
+  return <WebGeniusApp />;
 }
 
 export default function StudioPage() {

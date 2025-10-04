@@ -1,9 +1,9 @@
 "use client";
 
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
-import Header from '@/components/PromptCraft/Header';
-import LeftPanel from '@/components/PromptCraft/LeftPanel';
-import CenterPanel from '@/components/PromptCraft/CenterPanel';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
+import Header from '@/components/webgenius/Header';
+import LeftPanel from '@/components/webgenius/LeftPanel';
+import CenterPanel from '@/components/webgenius/CenterPanel';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent } from '@/components/ui/sheet';

@@ -2,7 +2,7 @@
 
 import { Laptop, Tablet, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
 import { cn } from '@/lib/utils';
 import {
   Tooltip,

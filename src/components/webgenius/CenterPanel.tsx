@@ -1,8 +1,8 @@
 "use client";
 
-import PreviewWindow from '@/components/PromptCraft/PreviewWindow';
-import ResponsiveControls from '@/components/PromptCraft/ResponsiveControls';
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import PreviewWindow from '@/components/webgenius/PreviewWindow';
+import ResponsiveControls from '@/components/webgenius/ResponsiveControls';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
 
 export default function CenterPanel() {
   const { isLoading } = usePromptCraftStore();

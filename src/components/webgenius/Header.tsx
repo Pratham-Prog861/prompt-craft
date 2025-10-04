@@ -2,7 +2,7 @@
 
 import { PanelLeft, Bot, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import { usePromptCraftStore } from '@/store/useWebGeniusStore';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Link from 'next/link';
 

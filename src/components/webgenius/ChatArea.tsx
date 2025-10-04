@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import { usePromptCraftStore, Message } from '@/store/usePromptCraftStore';
-import ChatMessage from '@/components/PromptCraft/ChatMessage';
+import { usePromptCraftStore, Message } from '@/store/useWebGeniusStore';
+import ChatMessage from '@/components/webgenius/ChatMessage';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Send, CornerDownLeft } from 'lucide-react';
