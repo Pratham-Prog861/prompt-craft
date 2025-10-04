@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter }from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Bot, Github, Twitter, Linkedin } from 'lucide-react';
+import { ArrowRight, Bot, Github, Twitter, Linkedin, Mail, Phone, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -25,10 +25,10 @@ function Navbar() {
           <Link href="#features" className="text-foreground/80 hover:text-primary transition-colors">
             Features
           </Link>
-           <Link href="#cta" className="text-foreground/80 hover:text-primary transition-colors">
+           <Link href="/showcase" className="text-foreground/80 hover:text-primary transition-colors">
             Showcase
           </Link>
-           <Link href="#footer" className="text-foreground/80 hover:text-primary transition-colors">
+           <Link href="#contact" className="text-foreground/80 hover:text-primary transition-colors">
             Contact
           </Link>
         </div>
@@ -56,15 +56,75 @@ function CtaSection() {
           Stop wrestling with code and complex builders. With WebGenius, you're just one prompt away from a stunning, professional website.
         </p>
         <div className="mt-8">
-          <Button size="lg">
-            Start Your Free Project Now
-            <ArrowRight className="h-5 w-5 ml-2" />
+          <Button size="lg" asChild>
+            <Link href="/studio">
+              Start Your Free Project Now
+              <ArrowRight className="h-5 w-5 ml-2" />
+            </Link>
           </Button>
         </div>
       </div>
     </section>
   );
 }
+
+function ContactSection() {
+    return (
+      <section id="contact" className="py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline">Get in Touch</h2>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/80">
+              Have questions or want to learn more? We'd love to hear from you.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 text-primary p-3 rounded-full">
+                        <Mail className="h-6 w-6"/>
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-semibold">Email</h3>
+                        <p className="text-foreground/80">Drop us a line anytime.</p>
+                        <a href="mailto:hello@webgenius.com" className="text-primary hover:underline">hello@webgenius.com</a>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 text-primary p-3 rounded-full">
+                        <Phone className="h-6 w-6"/>
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-semibold">Phone</h3>
+                        <p className="text-foreground/80">Talk to our team.</p>
+                        <a href="tel:+1234567890" className="text-primary hover:underline">+1 (234) 567-890</a>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 text-primary p-3 rounded-full">
+                        <MessageSquare className="h-6 w-6"/>
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-semibold">Live Chat</h3>
+                        <p className="text-foreground/80">Get instant answers.</p>
+                        <a href="#" className="text-primary hover:underline">Chat with us</a>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-card p-8 rounded-xl border">
+                <h3 className="text-2xl font-bold font-headline mb-6">Send us a Message</h3>
+                <form className="space-y-4">
+                    <Input placeholder="Your Name" />
+                    <Input type="email" placeholder="Your Email" />
+                    <textarea placeholder="Your Message" className="w-full bg-background rounded-md border p-2 min-h-[120px]"></textarea>
+                    <Button type="submit" className="w-full" size="lg">Send Message</Button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
 function Footer() {
   return (
@@ -82,8 +142,8 @@ function Footer() {
             <h4 className="font-semibold text-sm tracking-wider uppercase">Links</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li><Link href="#features" className="text-foreground/70 hover:text-primary">Features</Link></li>
-              <li><Link href="#cta" className="text-foreground/70 hover:text-primary">Showcase</Link></li>
-              <li><a href="#" className="text-foreground/70 hover:text-primary">Pricing</a></li>
+              <li><Link href="/showcase" className="text-foreground/70 hover:text-primary">Showcase</Link></li>
+              <li><Link href="#contact" className="text-foreground/70 hover:text-primary">Contact</Link></li>
             </ul>
           </div>
           <div>
@@ -201,6 +261,7 @@ export default function LandingPage() {
             <HeroSection/>
             <FeaturesSection />
             <CtaSection/>
+            <ContactSection />
         </main>
        <Footer/>
     </div>
