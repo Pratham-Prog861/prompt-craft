@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { generateWebsiteFromPrompt } from "@/ai/flows/generate-website-from-prompt";
-import { iterateOnWebsiteWithPrompts } from "@/ai/flows/iterate-on-website-with-prompts";
+// Removed AI imports - using instant fallbacks only for speed
 import {
   getFirestore,
   doc,
@@ -27,9 +26,12 @@ interface PromptCraftState {
   isLoading: boolean;
   activeDevice: Device;
   leftPanelOpen: boolean;
+  hasUnsavedChanges: boolean;
   addMessage: (message: Message) => void;
   processPrompt: (prompt: string) => Promise<void>;
   loadProject: (projectId: string) => Promise<void>;
+  resetForNewProject: () => void;
+  saveCurrentProject: () => Promise<void>;
   setCurrentHtml: (html: string) => void;
   setIsLoading: (loading: boolean) => void;
   setActiveDevice: (device: Device) => void;
@@ -145,9 +147,20 @@ export const usePromptCraftStore = create<PromptCraftState>((set, get) => ({
   isLoading: false,
   activeDevice: "desktop",
   leftPanelOpen: true,
+  hasUnsavedChanges: false,
   setProjectId: (projectId) => set({ projectId }),
   addMessage: (message) =>
     set((state) => ({ messages: [...state.messages, message] })),
+
+  resetForNewProject: () =>
+    set({
+      messages: [],
+      currentHtml: initialHtml,
+      projectId: null,
+      history: [initialHtml],
+      isLoading: false,
+      hasUnsavedChanges: false,
+    }),
 
   loadProject: async (projectId) => {
     set({ isLoading: true, messages: [], projectId });
@@ -174,6 +187,7 @@ export const usePromptCraftStore = create<PromptCraftState>((set, get) => ({
         const projectData = projectSnap.data();
         set({
           currentHtml: projectData.websiteCode,
+          hasUnsavedChanges: false, // Existing project, no unsaved changes
           messages: [
             {
               role: "assistant",
@@ -208,51 +222,137 @@ export const usePromptCraftStore = create<PromptCraftState>((set, get) => ({
   },
 
   processPrompt: async (prompt) => {
+    // Prevent duplicate calls if already loading
+    if (get().isLoading) {
+      console.log("Already processing a prompt, ignoring duplicate call");
+      return;
+    }
+
     const isFirstPrompt = get().messages.length === 0;
 
     get().addMessage({ role: "user", content: prompt });
     set({ isLoading: true });
 
+    // Add progress message with instant expectation
+    get().addMessage({
+      role: "assistant",
+      content: isFirstPrompt
+        ? "🚀 Creating your website instantly..."
+        : "✨ Applying your changes...",
+    });
+
     try {
       let newHtml = "";
+
       if (isFirstPrompt && !get().projectId) {
-        const result = await generateWebsiteFromPrompt(prompt);
-        newHtml = result.html;
+        // Use instant fallback for ALL new projects to ensure speed
+        const { getFallbackTemplate } = await import("@/ai/fallback-templates");
+        newHtml = getFallbackTemplate(prompt);
+
+        // Don't try AI generation at all - just use fallback for speed
       } else {
-        const result = await iterateOnWebsiteWithPrompts({
-          websiteHtml: get().currentHtml,
-          prompt,
-        });
-        newHtml = result.modifiedWebsiteHtml;
+        // For follow-up prompts, use simple modifications instead of AI
+        const { getSimpleModification } = await import(
+          "@/ai/simple-modifications"
+        );
+        newHtml = getSimpleModification(get().currentHtml, prompt);
       }
 
       if (newHtml) {
-        const newProjectId = await saveProject(
-          get().projectId,
-          newHtml,
-          prompt
-        );
-        set({ projectId: newProjectId });
+        // Remove progress message
+        set((state) => ({
+          messages: state.messages.slice(0, -1),
+        }));
+
+        // Don't auto-save, just update the HTML and mark as having unsaved changes
+        get().setCurrentHtml(newHtml);
+        set({ hasUnsavedChanges: true });
+
         get().addMessage({
           role: "assistant",
-          content:
-            "I've updated the website based on your prompt. What would you like to do next?",
+          content: isFirstPrompt
+            ? "✅ Your website is ready! This beautiful template was created instantly. Click 'Save Project' to save it."
+            : "✅ Changes applied! Your website has been updated. Click 'Save Project' to save your changes.",
         });
-        get().setCurrentHtml(newHtml);
       } else {
         throw new Error("AI did not return any HTML content.");
       }
     } catch (error) {
+      // Remove progress message
+      set((state) => ({
+        messages: state.messages.slice(0, -1),
+      }));
+
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred.";
+
+      // Provide helpful error messages
+      let userFriendlyMessage = "Sorry, something went wrong. ";
+      if (errorMessage.includes("timeout")) {
+        userFriendlyMessage +=
+          "The AI is taking longer than usual. Please try again with a simpler request.";
+      } else if (errorMessage.includes("API")) {
+        userFriendlyMessage +=
+          "There's an issue with the AI service. Please try again in a moment.";
+      } else {
+        userFriendlyMessage +=
+          "Please try rephrasing your request or try again.";
+      }
+
       get().addMessage({
         role: "assistant",
-        content: `Sorry, something went wrong: ${errorMessage}`,
+        content: userFriendlyMessage,
+      });
+
+      console.error("ProcessPrompt error:", errorMessage);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  saveCurrentProject: async () => {
+    const state = get();
+    if (!state.hasUnsavedChanges || !state.currentHtml) {
+      return;
+    }
+
+    try {
+      set({ isLoading: true });
+
+      // Get the first user message as the prompt for project name
+      const firstUserMessage = state.messages.find(
+        (msg) => msg.role === "user"
+      );
+      const prompt = firstUserMessage?.content || "New Website";
+
+      const newProjectId = await saveProject(
+        state.projectId,
+        state.currentHtml,
+        prompt
+      );
+
+      set({
+        projectId: newProjectId,
+        hasUnsavedChanges: false,
+      });
+
+      get().addMessage({
+        role: "assistant",
+        content:
+          "💾 Project saved successfully! You can find it in your Projects page.",
+      });
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to save project";
+      get().addMessage({
+        role: "assistant",
+        content: `❌ Failed to save project: ${errorMessage}`,
       });
     } finally {
       set({ isLoading: false });
     }
   },
+
   setCurrentHtml: (html) =>
     set((state) => ({ currentHtml: html, history: [...state.history, html] })),
   setIsLoading: (loading) => set({ isLoading: loading }),

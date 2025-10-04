@@ -9,8 +9,20 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 export default function PromptCraftApp() {
-  const { leftPanelOpen, toggleLeftPanel } = usePromptCraftStore();
+  const { leftPanelOpen, toggleLeftPanel, isLoading } = usePromptCraftStore();
   const isMobile = useIsMobile();
+
+  // Add stable loading state to prevent glittering
+  if (isLoading && !usePromptCraftStore.getState().currentHtml) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Creating your website...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isMobile) {
     return (

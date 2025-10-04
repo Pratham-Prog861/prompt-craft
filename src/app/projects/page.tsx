@@ -145,7 +145,7 @@ export default function ProjectsPage() {
                             </p>
                         </div>
                         <Button asChild>
-                            <Link href="/studio">
+                            <Link href="/studio?new=true">
                                 <PlusCircle className="mr-2 h-4 w-4" /> New Project
                             </Link>
                         </Button>
@@ -172,7 +172,7 @@ export default function ProjectsPage() {
                                 Start creating your first website by clicking the button below.
                             </p>
                             <Button asChild className="mt-6">
-                                <Link href="/studio">
+                                <Link href="/studio?new=true">
                                     <PlusCircle className="mr-2 h-4 w-4" /> Start a New Project
                                 </Link>
                             </Button>

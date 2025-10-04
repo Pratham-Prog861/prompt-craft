@@ -9,19 +9,30 @@ function StudioPageContent() {
   const searchParams = useSearchParams();
   const processPrompt = usePromptCraftStore((state) => state.processPrompt);
   const loadProject = usePromptCraftStore((state) => state.loadProject);
-  const messages = usePromptCraftStore((state) => state.messages);
+  const resetForNewProject = usePromptCraftStore((state) => state.resetForNewProject);
+  const isLoading = usePromptCraftStore((state) => state.isLoading);
   const projectIdStore = usePromptCraftStore((state) => state.projectId);
 
   useEffect(() => {
+    // Prevent multiple executions
+    if (isLoading) return;
+
     const prompt = searchParams.get('prompt');
     const projectId = searchParams.get('projectId');
+    const isNewProject = searchParams.get('new') === 'true';
     
-    if (projectId && projectId !== projectIdStore) {
-        loadProject(projectId);
-    } else if (prompt && messages.length === 0) {
-      processPrompt(prompt);
+    // Create a unique key for this effect to prevent duplicates
+    const effectKey = `${prompt || ''}-${projectId || ''}-${isNewProject}`;
+    
+    if (isNewProject || (prompt && !projectId)) {
+      resetForNewProject();
+      if (prompt) {
+        processPrompt(prompt);
+      }
+    } else if (projectId && projectId !== projectIdStore) {
+      loadProject(projectId);
     }
-  }, [searchParams, processPrompt, loadProject, messages.length, projectIdStore]);
+  }, [searchParams.toString()]); // Only depend on search params string
 
   return <WebGeniusApp />;
 }

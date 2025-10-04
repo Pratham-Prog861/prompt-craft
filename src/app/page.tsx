@@ -72,7 +72,7 @@ function CtaSection() {
         </p>
         <div className="mt-8">
           <Button size="lg" asChild>
-            <Link href="/studio">
+            <Link href="/studio?new=true">
               Start Your Free Project Now
               <ArrowRight className="h-5 w-5 ml-2" />
             </Link>
