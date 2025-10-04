@@ -5,8 +5,17 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Bot, Eye } from 'lucide-react';
+import { ArrowLeft, Bot, Eye, Loader } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { useState } from 'react';
+import { generateWebsiteFromPrompt } from '@/ai/flows/generate-website-from-prompt';
 
 // This would typically come from a database or API
 const projects = [
@@ -60,6 +69,66 @@ function Navbar() {
   );
 }
 
+function LivePreviewDialog({ prompt }: { prompt: string }) {
+    const [isLoading, setIsLoading] = useState(false);
+    const [htmlContent, setHtmlContent] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+  
+    const handlePreview = async () => {
+      if (htmlContent) return; 
+  
+      setIsLoading(true);
+      try {
+        const result = await generateWebsiteFromPrompt(prompt);
+        const fullHtml = `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <script src="https://cdn.tailwindcss.com"></script>
+            </head>
+            <body>${result.html}</body>
+          </html>
+        `;
+        setHtmlContent(`data:text/html;charset=utf-8,${encodeURIComponent(fullHtml)}`);
+      } catch (error) {
+        console.error("Failed to generate preview:", error);
+        setHtmlContent('<div>Sorry, the preview could not be generated.</div>');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button variant="secondary" onClick={handlePreview}>
+            <Eye className="mr-2 h-4 w-4" />
+            Live Preview
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-4xl h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Live Preview</DialogTitle>
+          </DialogHeader>
+          <div className="h-full w-full border rounded-md overflow-hidden">
+            {isLoading ? (
+              <div className="flex items-center justify-center h-full">
+                <Loader className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <iframe
+                src={htmlContent}
+                title="Live Preview"
+                className="w-full h-full bg-background"
+                sandbox="allow-scripts allow-same-origin"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
 export default function ShowcaseProjectPage() {
   const params = useParams();
   const projectId = params.id;
@@ -108,10 +177,7 @@ export default function ShowcaseProjectPage() {
                             Try this prompt
                         </Button>
                     </Link>
-                    <Button variant="secondary" disabled>
-                        <Eye className="mr-2 h-4 w-4"/>
-                        Live Preview (Coming Soon)
-                    </Button>
+                     <LivePreviewDialog prompt={project.prompt} />
                  </div>
               </div>
             </div>
