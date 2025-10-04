@@ -19,7 +19,6 @@ interface WebGeniusState {
   isLoading: boolean;
   activeDevice: Device;
   leftPanelOpen: boolean;
-  rightPanelOpen: boolean;
   addMessage: (message: Message) => void;
   processPrompt: (prompt: string) => Promise<void>;
   loadProject: (projectId: string) => Promise<void>;
@@ -27,7 +26,6 @@ interface WebGeniusState {
   setIsLoading: (loading: boolean) => void;
   setActiveDevice: (device: Device) => void;
   toggleLeftPanel: () => void;
-  toggleRightPanel: () => void;
   setProjectId: (projectId: string | null) => void;
 }
 
@@ -114,7 +112,6 @@ export const useWebGeniusStore = create<WebGeniusState>((set, get) => ({
   isLoading: false,
   activeDevice: 'desktop',
   leftPanelOpen: true,
-  rightPanelOpen: true,
   setProjectId: (projectId) => set({ projectId }),
   addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
   
@@ -188,5 +185,4 @@ export const useWebGeniusStore = create<WebGeniusState>((set, get) => ({
   setIsLoading: (loading) => set({ isLoading: loading }),
   setActiveDevice: (device) => set({ activeDevice: device }),
   toggleLeftPanel: () => set((state) => ({ leftPanelOpen: !state.leftPanelOpen })),
-  toggleRightPanel: () => set((state) => ({ rightPanelOpen: !state.rightPanelOpen })),
 }));

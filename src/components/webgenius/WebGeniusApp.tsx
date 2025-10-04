@@ -10,7 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 export default function WebGeniusApp() {
-  const { leftPanelOpen, toggleLeftPanel, rightPanelOpen } = useWebGeniusStore();
+  const { leftPanelOpen, toggleLeftPanel } = useWebGeniusStore();
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -44,14 +44,6 @@ export default function WebGeniusApp() {
         <div className="flex-1 flex flex-col overflow-hidden">
           <CenterPanel />
         </div>
-         <aside
-          className={cn(
-            'transition-all duration-300 ease-in-out bg-card border-l',
-            rightPanelOpen ? 'w-80' : 'w-0'
-          )}
-        >
-          {rightPanelOpen && <RightPanel />}
-        </aside>
       </main>
     </div>
   );
