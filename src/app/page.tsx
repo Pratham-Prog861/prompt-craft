@@ -9,6 +9,7 @@ import { ArrowRight, Bot, Github, Twitter, Linkedin, Mail, Phone, MessageSquare 
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Chatbot from '@/components/landing/Chatbot';
 
 
 function Navbar() {
@@ -68,7 +69,7 @@ function CtaSection() {
   );
 }
 
-function ContactSection() {
+function ContactSection({ onChatOpen }: { onChatOpen: () => void }) {
     return (
       <section id="contact" className="py-20 md:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,8 +107,8 @@ function ContactSection() {
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold">Live Chat</h3>
-                        <p className="text-foreground/80">Get instant answers.</p>
-                        <a href="#" className="text-primary hover:underline">Chat with us</a>
+                        <p className="text-foreground/80">Get instant answers from our AI assistant.</p>
+                        <button onClick={onChatOpen} className="text-primary hover:underline">Chat with us</button>
                     </div>
                 </div>
             </div>
@@ -253,6 +254,7 @@ function FeaturesSection() {
   }
 
 export default function LandingPage() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
     <div className="bg-background text-foreground">
@@ -261,9 +263,10 @@ export default function LandingPage() {
             <HeroSection/>
             <FeaturesSection />
             <CtaSection/>
-            <ContactSection />
+            <ContactSection onChatOpen={() => setIsChatOpen(true)} />
         </main>
        <Footer/>
+       <Chatbot isOpen={isChatOpen} onOpenChange={setIsChatOpen} />
     </div>
   );
 }
