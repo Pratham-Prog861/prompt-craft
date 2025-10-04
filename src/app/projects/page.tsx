@@ -1,15 +1,28 @@
 'use client';
 
 import { useUser, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, where } from 'firebase/firestore';
+import { collection, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase/provider';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, ArrowRight } from 'lucide-react';
+import { PlusCircle, ArrowRight, Trash } from 'lucide-react';
 import UserPagesNavbar from '@/components/layout/UserPagesNavbar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { useToast } from '@/hooks/use-toast';
+
 
 interface DashboardProject {
     projectName: string;
@@ -23,6 +36,29 @@ interface DashboardProject {
 
 function ProjectCard({ project }: { project: { id: string } & DashboardProject }) {
     const lastModified = project.lastModifiedDate ? format(new Date(project.lastModifiedDate.seconds * 1000), 'MMM d, yyyy') : 'N/A';
+    const firestore = useFirestore();
+    const { user } = useUser();
+    const { toast } = useToast();
+
+    const handleDelete = async () => {
+        if (!user || !firestore) return;
+        
+        try {
+            const projectRef = doc(firestore, 'users', user.uid, 'websiteProjects', project.id);
+            await deleteDoc(projectRef);
+            toast({
+                title: "Project Deleted",
+                description: `"${project.projectName}" has been successfully deleted.`
+            });
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Error deleting project",
+                description: error.message
+            });
+        }
+    }
+    
     return (
         <Card className="flex flex-col">
             <CardHeader>
@@ -32,12 +68,32 @@ function ProjectCard({ project }: { project: { id: string } & DashboardProject }
             <CardContent className="flex-1">
                 <p className="text-muted-foreground line-clamp-3">{project.projectDescription}</p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-between items-center gap-2">
                 <Button asChild variant="secondary" className="w-full">
                     <Link href={`/studio?projectId=${project.id}`}>
-                        Open Project <ArrowRight className="ml-2 h-4 w-4" />
+                        Open <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                 </Button>
+                 <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="icon">
+                            <Trash className="h-4 w-4" />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your
+                            project and remove your data from our servers.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </CardFooter>
         </Card>
     )

@@ -1,12 +1,14 @@
 
-"use client";
+'use client';
 
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Bot, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Bot, Eye } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
+// This would typically come from a database or API
 const projects = [
   {
     id: 1,
@@ -34,6 +36,7 @@ const projects = [
   },
 ];
 
+
 function Navbar() {
   return (
     <header className="sticky top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b">
@@ -45,10 +48,10 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-2">
-            <Link href="/" passHref>
+            <Link href="/showcase" passHref>
                 <Button variant="outline">
                     <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to Home
+                    Back to Showcase
                 </Button>
             </Link>
         </div>
@@ -57,23 +60,34 @@ function Navbar() {
   );
 }
 
-export default function ShowcasePage() {
+export default function ShowcaseProjectPage() {
+  const params = useParams();
+  const projectId = params.id;
+  const project = projects.find(p => p.id.toString() === projectId);
+
+  if (!project) {
+    return (
+        <div className="bg-background text-foreground min-h-screen">
+            <Navbar />
+            <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <h1 className="text-4xl font-bold">Project Not Found</h1>
+                <p className="mt-4 text-lg text-foreground/80">
+                    Sorry, we couldn't find the project you're looking for.
+                </p>
+                <Link href="/showcase" passHref>
+                    <Button className="mt-8">Back to Showcase</Button>
+                </Link>
+            </main>
+        </div>
+    );
+  }
+
   return (
     <div className="bg-background text-foreground min-h-screen">
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            Community Showcase
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/80">
-            See what others have created with the power of a single prompt.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {projects.map((project) => (
-            <div key={project.id} className="bg-card rounded-xl overflow-hidden border group transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div className="max-w-4xl mx-auto">
+            <div className="bg-card rounded-xl overflow-hidden border">
               <div className="relative aspect-video">
                 <Image 
                     src={project.image} 
@@ -81,21 +95,26 @@ export default function ShowcasePage() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
-                    data-ai-hint={project.hint}
                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               </div>
               <div className="p-6">
-                <p className="italic text-foreground/70 line-clamp-3">"{project.prompt}"</p>
-                 <Link href={`/showcase/${project.id}`} passHref>
-                    <Button variant="link" className="px-0 mt-2">
-                        View Project
-                        <ArrowRight className="h-4 w-4 ml-1" />
+                 <p className="text-sm font-semibold text-primary mb-2">Prompt:</p>
+                 <blockquote className="italic text-foreground/80 border-l-2 border-primary pl-4">
+                    "{project.prompt}"
+                 </blockquote>
+                 <div className="mt-6 flex gap-4">
+                     <Link href={`/studio?prompt=${encodeURIComponent(project.prompt)}`} passHref>
+                        <Button>
+                            Try this prompt
+                        </Button>
+                    </Link>
+                    <Button variant="secondary" disabled>
+                        <Eye className="mr-2 h-4 w-4"/>
+                        Live Preview (Coming Soon)
                     </Button>
-                </Link>
+                 </div>
               </div>
             </div>
-          ))}
         </div>
       </main>
     </div>
