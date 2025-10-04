@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Bot, Github, Twitter, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 
 function Navbar() {
@@ -148,17 +150,20 @@ function FeaturesSection() {
       {
         title: "AI-Powered Generation",
         description: "Describe your vision in plain English and our AI will generate the layout, content, and styling for you.",
-        image: "https://picsum.photos/seed/feature1/600/400"
+        image: PlaceHolderImages[0].imageUrl,
+        hint: PlaceHolderImages[0].imageHint,
       },
       {
         title: "Real-Time Visual Editor",
         description: "Fine-tune every aspect of your site with an intuitive drag-and-drop interface. What you see is what you get.",
-        image: "https://picsum.photos/seed/feature2/600/400"
+        image: PlaceHolderImages[1].imageUrl,
+        hint: PlaceHolderImages[1].imageHint
       },
       {
         title: "Responsive by Design",
         description: "Every website generated is automatically optimized for desktops, tablets, and mobile devices.",
-        image: "https://picsum.photos/seed/feature3/600/400"
+        image: PlaceHolderImages[2].imageUrl,
+        hint: PlaceHolderImages[2].imageHint
       }
     ];
   
@@ -175,7 +180,7 @@ function FeaturesSection() {
             {features.map((feature, index) => (
               <div key={index} className="bg-card p-6 rounded-lg border shadow-sm">
                 <div className="aspect-video relative rounded-md overflow-hidden mb-4">
-                  <Image src={feature.image} alt={feature.title} fill className="object-cover" />
+                  <Image src={feature.image} alt={feature.title} data-ai-hint={feature.hint} fill className="object-cover" />
                 </div>
                 <h3 className="text-xl font-bold font-headline">{feature.title}</h3>
                 <p className="mt-2 text-foreground/80">{feature.description}</p>

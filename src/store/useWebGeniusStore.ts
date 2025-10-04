@@ -63,13 +63,14 @@ export const useWebGeniusStore = create<WebGeniusState>((set, get) => ({
   rightPanelOpen: true,
   addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
   processPrompt: async (prompt) => {
-    const { currentHtml, addMessage, setCurrentHtml } = get();
+    const { currentHtml, messages, addMessage, setCurrentHtml } = get();
     addMessage({ role: 'user', content: prompt });
     set({ isLoading: true });
 
     try {
       let newHtml = '';
-      if (!currentHtml || currentHtml === initialHtml) {
+      // If there are no messages yet, or the last message was the initial prompt, generate a new website.
+      if (messages.length === 1) {
         const result = await generateWebsiteFromPrompt(prompt);
         newHtml = result.html;
       } else {

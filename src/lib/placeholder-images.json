@@ -2,21 +2,21 @@
   "placeholderImages": [
     {
       "id": "1",
-      "description": "Abstract pink and blue architecture",
-      "imageUrl": "https://images.unsplash.com/photo-1501619438411-47314d5a0580?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NTk0NjQwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract architecture"
+      "description": "An AI robot hand touching a human hand, representing the collaboration between humans and AI.",
+      "imageUrl": "https://images.unsplash.com/photo-1593349480504-865f3a999a83?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "AI collaboration"
     },
     {
       "id": "2",
-      "description": "A person working on a laptop",
-      "imageUrl": "https://images.unsplash.com/photo-1541560052-5e137f229371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBsYXB0b3B8ZW58MHx8fHwxNzU5NDc5NDE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "person laptop"
+      "description": "A person using a modern, sleek visual website editor on a large monitor.",
+      "imageUrl": "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "visual editor"
     },
     {
       "id": "3",
-      "description": "A modern city skyline at dusk",
-      "imageUrl": "https://images.unsplash.com/photo-1544214036-5aaeb9e32d11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2l0eSUyMHNreWxpbmV8ZW58MHx8fHwxNzU5NDg2MjkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "city skyline"
+      "description": "A collection of devices (desktop, tablet, mobile) showing a consistently responsive website design.",
+      "imageUrl": "https://images.unsplash.com/photo-1559028006-448665bd7c22?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "responsive design"
     },
     {
       "id": "4",
