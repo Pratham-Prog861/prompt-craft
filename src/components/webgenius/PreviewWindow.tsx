@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 export default function PreviewWindow() {
   const { currentHtml, activeDevice, isLoading } = useWebGeniusStore();
-  const [iframeSrc, setIframeSrc] = useState('');
+  const [iframeSrc, setIframeSrc] = useState<string | null>(null);
   
   const deviceWidths = {
     desktop: '100%',
@@ -86,6 +86,10 @@ export default function PreviewWindow() {
     `;
     setIframeSrc(`data:text/html;charset=utf-8,${encodeURIComponent(fullHtml)}`);
   }, [currentHtml]);
+
+  if (!iframeSrc) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <div className="w-full h-full flex justify-center bg-card">
