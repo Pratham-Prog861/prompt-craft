@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -86,10 +87,12 @@ export default function ShowcasePage() {
               </div>
               <div className="p-6">
                 <p className="italic text-foreground/70 line-clamp-3">"{project.prompt}"</p>
-                <Button variant="link" className="px-0 mt-2">
-                    View Project
-                    <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
+                 <Link href={`/studio?prompt=${encodeURIComponent(project.prompt)}`} passHref>
+                    <Button variant="link" className="px-0 mt-2">
+                        View Project
+                        <ArrowRight className="h-4 w-4 ml-1" />
+                    </Button>
+                </Link>
               </div>
             </div>
           ))}
