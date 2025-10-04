@@ -10,9 +10,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Chatbot from '@/components/landing/Chatbot';
+import { UserNav } from '@/components/auth/UserNav';
+import { useUser } from '@/firebase';
 
 
 function Navbar() {
+  const { user, isUserLoading } = useUser();
+
   return (
     <header className="absolute top-0 left-0 right-0 z-20 bg-background/50 backdrop-blur-sm">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -34,11 +38,21 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-2">
-            <Button variant="ghost">Log In</Button>
-            <Button>
-                Get Started
-                <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+          {isUserLoading ? null : user ? (
+            <UserNav />
+          ) : (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/login">Log In</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/login">
+                  Get Started
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </header>
