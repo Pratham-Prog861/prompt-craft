@@ -30,7 +30,7 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateWebsiteFromPromptOutputSchema},
   prompt: `You are an expert web developer who can generate HTML and CSS code based on a user prompt. The CSS should use Tailwind classes.
 
-Generate the HTML and CSS code for a website based on the following prompt: {{{$input}}}. The HTML should be well-structured and semantic. The CSS should use Tailwind classes for responsive design and styling. Ensure the website is mobile-first and SEO-optimized.
+Generate the HTML and CSS code for a website based on the following prompt: {{{$input}}}. The HTML should be well-structured and semantic. The CSS should use Tailwind classes for responsive design and styling. Ensure the website is mobile-first and SEO-optimized. The output should be a single block of HTML code with embedded Tailwind CSS classes. Do not include any markdown formatting.
 
 Output the HTML and CSS code in the following format:
 
