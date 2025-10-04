@@ -15,7 +15,7 @@
     {
       "id": "3",
       "description": "A collection of devices (desktop, tablet, mobile) showing a consistently responsive website design.",
-      "imageUrl": "https://images.unsplash.com/photo-1559028006-448665bd7c22?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "https://images.unsplash.com/photo-1688733720228-4f7a18681c4f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "responsive design"
     },
     {
@@ -23,6 +23,12 @@
       "description": "Serene forest with sunbeams",
       "imageUrl": "https://images.unsplash.com/photo-1611530866681-61929483ad62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmb3Jlc3QlMjBzdW5iZWFtc3xlbnwwfHx8fDE3NTk1MDgzNDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "forest sunbeams"
+    },
+    {
+      "id": "5",
+      "description": "A AI powered generation of a person using a modern, sleek visual website editor on a large monitor.",
+      "imageUrl": "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?q=80&w=996&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "ai generation"
     }
   ]
 }

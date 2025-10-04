@@ -1,4 +1,4 @@
-# **App Name**: WebGenius
+# **App Name**: PromptCraft
 
 ## Core Features:
 

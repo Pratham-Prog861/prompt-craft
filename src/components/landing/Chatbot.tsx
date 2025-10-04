@@ -20,7 +20,7 @@ export default function Chatbot({ isOpen, onOpenChange }: { isOpen: boolean, onO
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: "Hello! I'm the WebGenius assistant. How can I help you today?",
+      content: "Hello! I'm the PromptCraft assistant. How can I help you today?",
     },
   ]);
   const [input, setInput] = useState('');

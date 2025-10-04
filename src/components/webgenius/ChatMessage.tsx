@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Bot, User, Loader } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Message } from '@/store/useWebGeniusStore';
+import { Message } from '@/store/usePromptCraftStore';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ChatMessageProps {

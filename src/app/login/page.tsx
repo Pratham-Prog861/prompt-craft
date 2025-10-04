@@ -11,7 +11,7 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center text-center">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold font-headline text-primary mb-2">
             <Bot className="h-8 w-8" />
-            <span>WebGenius</span>
+            <span>PromptCraft</span>
           </Link>
           <p className="text-muted-foreground">Welcome back! Sign in to continue building.</p>
         </div>

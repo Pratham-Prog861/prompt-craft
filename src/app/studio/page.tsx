@@ -2,15 +2,15 @@
 
 import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import WebGeniusApp from '@/components/webgenius/WebGeniusApp';
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
+import PromptCraftApp from '@/components/PromptCraft/PromptCraftApp';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
 
 function StudioPageContent() {
   const searchParams = useSearchParams();
-  const processPrompt = useWebGeniusStore((state) => state.processPrompt);
-  const loadProject = useWebGeniusStore((state) => state.loadProject);
-  const messages = useWebGeniusStore((state) => state.messages);
-  const projectIdStore = useWebGeniusStore((state) => state.projectId);
+  const processPrompt = usePromptCraftStore((state) => state.processPrompt);
+  const loadProject = usePromptCraftStore((state) => state.loadProject);
+  const messages = usePromptCraftStore((state) => state.messages);
+  const projectIdStore = usePromptCraftStore((state) => state.projectId);
 
   useEffect(() => {
     const prompt = searchParams.get('prompt');
@@ -23,7 +23,7 @@ function StudioPageContent() {
     }
   }, [searchParams, processPrompt, loadProject, messages.length, projectIdStore]);
 
-  return <WebGeniusApp />;
+  return <PromptCraftApp />;
 }
 
 export default function StudioPage() {

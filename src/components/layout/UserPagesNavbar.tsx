@@ -15,7 +15,7 @@ export default function UserPagesNavbar() {
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
             <Bot className="h-6 w-6" />
-            <span>WebGenius</span>
+            <span>PromptCraft</span>
           </Link>
         </div>
         <div className="flex items-center gap-2">

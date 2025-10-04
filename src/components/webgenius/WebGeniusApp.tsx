@@ -1,16 +1,15 @@
 "use client";
 
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
-import Header from '@/components/webgenius/Header';
-import LeftPanel from '@/components/webgenius/LeftPanel';
-import CenterPanel from '@/components/webgenius/CenterPanel';
-import RightPanel from '@/components/webgenius/RightPanel';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
+import Header from '@/components/PromptCraft/Header';
+import LeftPanel from '@/components/PromptCraft/LeftPanel';
+import CenterPanel from '@/components/PromptCraft/CenterPanel';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 
-export default function WebGeniusApp() {
-  const { leftPanelOpen, toggleLeftPanel } = useWebGeniusStore();
+export default function PromptCraftApp() {
+  const { leftPanelOpen, toggleLeftPanel } = usePromptCraftStore();
   const isMobile = useIsMobile();
 
   if (isMobile) {

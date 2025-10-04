@@ -2,7 +2,7 @@
 
 import { Laptop, Tablet, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
 import { cn } from '@/lib/utils';
 import {
   Tooltip,
@@ -13,7 +13,7 @@ import {
 
 
 export default function ResponsiveControls() {
-  const { activeDevice, setActiveDevice } = useWebGeniusStore();
+  const { activeDevice, setActiveDevice } = usePromptCraftStore();
 
   const devices = [
     { name: 'desktop', icon: Laptop },

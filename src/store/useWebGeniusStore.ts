@@ -1,17 +1,25 @@
-import { create } from 'zustand';
-import { generateWebsiteFromPrompt } from '@/ai/flows/generate-website-from-prompt';
-import { iterateOnWebsiteWithPrompts } from '@/ai/flows/iterate-on-website-with-prompts';
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp, collection, addDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { create } from "zustand";
+import { generateWebsiteFromPrompt } from "@/ai/flows/generate-website-from-prompt";
+import { iterateOnWebsiteWithPrompts } from "@/ai/flows/iterate-on-website-with-prompts";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+  collection,
+  addDoc,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 export type Message = {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 };
 
-type Device = 'desktop' | 'tablet' | 'mobile';
+type Device = "desktop" | "tablet" | "mobile";
 
-interface WebGeniusState {
+interface PromptCraftState {
   messages: Message[];
   currentHtml: string;
   projectId: string | null;
@@ -32,7 +40,7 @@ interface WebGeniusState {
 const initialHtml = `
 <div class="flex flex-col items-center justify-center h-full bg-background text-center p-8">
   <div class="max-w-md">
-    <h1 class="font-headline text-5xl font-bold text-primary">WebGenius</h1>
+    <h1 class="font-headline text-5xl font-bold text-primary">PromptCraft</h1>
     <p class="mt-4 text-lg text-foreground/80">
       Welcome to the future of web design.
       <br />
@@ -56,105 +64,157 @@ const initialHtml = `
 </div>
 `;
 
-async function saveProject(projectId: string | null, html: string, prompt: string): Promise<string> {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) throw new Error("User not authenticated.");
+async function saveProject(
+  projectId: string | null,
+  html: string,
+  prompt: string
+): Promise<string> {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (!user) throw new Error("User not authenticated.");
 
-    const db = getFirestore();
-    
-    let currentProjectId = projectId;
-    
-    if (currentProjectId) {
-        // Update existing project
-        const projectRef = doc(db, 'users', user.uid, 'websiteProjects', currentProjectId);
-        await setDoc(projectRef, { 
-            websiteCode: html,
-            lastModifiedDate: serverTimestamp(),
-            lastPrompt: prompt,
-        }, { merge: true });
-    } else {
-        // Create new project
-        const projectCollectionRef = collection(db, 'users', user.uid, 'websiteProjects');
-        const newProjectRef = await addDoc(projectCollectionRef, {
-            userId: user.uid,
-            projectName: prompt.substring(0, 50), // Use first 50 chars of prompt as name
-            projectDescription: prompt,
-            creationDate: serverTimestamp(),
-            lastModifiedDate: serverTimestamp(),
-            websiteCode: html,
-            thumbnailUrl: `https://picsum.photos/seed/${Math.random()}/400/300`,
-        });
-        currentProjectId = newProjectRef.id;
-    }
+  const db = getFirestore();
 
-    if (!currentProjectId) {
-      throw new Error("Could not create or update project ID.");
-    }
-    
-    // Save prompt history
-    const promptHistoryRef = collection(db, 'users', user.uid, 'websiteProjects', currentProjectId, 'promptHistories');
-    await addDoc(promptHistoryRef, {
-        timestamp: serverTimestamp(),
-        promptText: prompt,
-        aiResponse: html, // Storing the resulting HTML as the 'response'
+  let currentProjectId = projectId;
+
+  if (currentProjectId) {
+    // Update existing project
+    const projectRef = doc(
+      db,
+      "users",
+      user.uid,
+      "websiteProjects",
+      currentProjectId
+    );
+    await setDoc(
+      projectRef,
+      {
+        websiteCode: html,
+        lastModifiedDate: serverTimestamp(),
+        lastPrompt: prompt,
+      },
+      { merge: true }
+    );
+  } else {
+    // Create new project
+    const projectCollectionRef = collection(
+      db,
+      "users",
+      user.uid,
+      "websiteProjects"
+    );
+    const newProjectRef = await addDoc(projectCollectionRef, {
+      userId: user.uid,
+      projectName: prompt.substring(0, 50), // Use first 50 chars of prompt as name
+      projectDescription: prompt,
+      creationDate: serverTimestamp(),
+      lastModifiedDate: serverTimestamp(),
+      websiteCode: html,
+      thumbnailUrl: `https://picsum.photos/seed/${Math.random()}/400/300`,
     });
-    
-    return currentProjectId;
+    currentProjectId = newProjectRef.id;
+  }
+
+  if (!currentProjectId) {
+    throw new Error("Could not create or update project ID.");
+  }
+
+  // Save prompt history
+  const promptHistoryRef = collection(
+    db,
+    "users",
+    user.uid,
+    "websiteProjects",
+    currentProjectId,
+    "promptHistories"
+  );
+  await addDoc(promptHistoryRef, {
+    timestamp: serverTimestamp(),
+    promptText: prompt,
+    aiResponse: html, // Storing the resulting HTML as the 'response'
+  });
+
+  return currentProjectId;
 }
 
-
-export const useWebGeniusStore = create<WebGeniusState>((set, get) => ({
+export const usePromptCraftStore = create<PromptCraftState>((set, get) => ({
   messages: [],
   currentHtml: initialHtml,
   projectId: null,
   history: [initialHtml],
   isLoading: false,
-  activeDevice: 'desktop',
+  activeDevice: "desktop",
   leftPanelOpen: true,
   setProjectId: (projectId) => set({ projectId }),
-  addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
-  
+  addMessage: (message) =>
+    set((state) => ({ messages: [...state.messages, message] })),
+
   loadProject: async (projectId) => {
     set({ isLoading: true, messages: [], projectId });
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) {
-        set({ isLoading: false });
-        // Maybe add a message to prompt login
-        return;
+      set({ isLoading: false });
+      // Maybe add a message to prompt login
+      return;
     }
 
     const db = getFirestore();
     try {
-        const projectRef = doc(db, 'users', user.uid, 'websiteProjects', projectId);
-        const projectSnap = await getDoc(projectRef);
+      const projectRef = doc(
+        db,
+        "users",
+        user.uid,
+        "websiteProjects",
+        projectId
+      );
+      const projectSnap = await getDoc(projectRef);
 
-        if (projectSnap.exists()) {
-            const projectData = projectSnap.data();
-            set({
-                currentHtml: projectData.websiteCode,
-                messages: [{ role: 'assistant', content: `Loaded project: ${projectData.projectName}. Let's continue building!` }],
-            });
-        } else {
-            set({ messages: [{ role: 'assistant', content: `Could not find project with ID: ${projectId}` }] });
-        }
+      if (projectSnap.exists()) {
+        const projectData = projectSnap.data();
+        set({
+          currentHtml: projectData.websiteCode,
+          messages: [
+            {
+              role: "assistant",
+              content: `Loaded project: ${projectData.projectName}. Let's continue building!`,
+            },
+          ],
+        });
+      } else {
+        set({
+          messages: [
+            {
+              role: "assistant",
+              content: `Could not find project with ID: ${projectId}`,
+            },
+          ],
+        });
+      }
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-        set({ messages: [{ role: 'assistant', content: `Error loading project: ${errorMessage}` }] });
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred.";
+      set({
+        messages: [
+          {
+            role: "assistant",
+            content: `Error loading project: ${errorMessage}`,
+          },
+        ],
+      });
     } finally {
-        set({ isLoading: false });
+      set({ isLoading: false });
     }
   },
 
   processPrompt: async (prompt) => {
     const isFirstPrompt = get().messages.length === 0;
-    
-    get().addMessage({ role: 'user', content: prompt });
+
+    get().addMessage({ role: "user", content: prompt });
     set({ isLoading: true });
 
     try {
-      let newHtml = '';
+      let newHtml = "";
       if (isFirstPrompt && !get().projectId) {
         const result = await generateWebsiteFromPrompt(prompt);
         newHtml = result.html;
@@ -165,24 +225,38 @@ export const useWebGeniusStore = create<WebGeniusState>((set, get) => ({
         });
         newHtml = result.modifiedWebsiteHtml;
       }
-      
+
       if (newHtml) {
-        const newProjectId = await saveProject(get().projectId, newHtml, prompt);
+        const newProjectId = await saveProject(
+          get().projectId,
+          newHtml,
+          prompt
+        );
         set({ projectId: newProjectId });
-        get().addMessage({ role: 'assistant', content: "I've updated the website based on your prompt. What would you like to do next?" });
+        get().addMessage({
+          role: "assistant",
+          content:
+            "I've updated the website based on your prompt. What would you like to do next?",
+        });
         get().setCurrentHtml(newHtml);
       } else {
-        throw new Error('AI did not return any HTML content.');
+        throw new Error("AI did not return any HTML content.");
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-      get().addMessage({ role: 'assistant', content: `Sorry, something went wrong: ${errorMessage}` });
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred.";
+      get().addMessage({
+        role: "assistant",
+        content: `Sorry, something went wrong: ${errorMessage}`,
+      });
     } finally {
       set({ isLoading: false });
     }
   },
-  setCurrentHtml: (html) => set((state) => ({ currentHtml: html, history: [...state.history, html] })),
+  setCurrentHtml: (html) =>
+    set((state) => ({ currentHtml: html, history: [...state.history, html] })),
   setIsLoading: (loading) => set({ isLoading: loading }),
   setActiveDevice: (device) => set({ activeDevice: device }),
-  toggleLeftPanel: () => set((state) => ({ leftPanelOpen: !state.leftPanelOpen })),
+  toggleLeftPanel: () =>
+    set((state) => ({ leftPanelOpen: !state.leftPanelOpen })),
 }));

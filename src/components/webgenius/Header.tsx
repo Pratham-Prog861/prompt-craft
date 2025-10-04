@@ -2,12 +2,12 @@
 
 import { PanelLeft, Bot, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Link from 'next/link';
 
 export default function Header() {
-  const { toggleLeftPanel } = useWebGeniusStore();
+  const { toggleLeftPanel } = usePromptCraftStore();
   const isMobile = useIsMobile();
   
   return (
@@ -20,7 +20,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
             <Link href="/" className="text-xl font-headline font-bold text-primary flex items-center gap-2">
                 <Bot className="h-6 w-6" />
-                <span>WebGenius</span>
+                <span>PromptCraft</span>
             </Link>
         </div>
       </div>

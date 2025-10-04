@@ -1,11 +1,11 @@
 "use client";
 
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export default function PreviewWindow() {
-  const { currentHtml, activeDevice, isLoading } = useWebGeniusStore();
+  const { currentHtml, activeDevice, isLoading } = usePromptCraftStore();
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
   
   const deviceWidths = {

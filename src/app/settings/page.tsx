@@ -66,7 +66,7 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle>Theme</CardTitle>
               <CardDescription>
-                Choose how WebGenius looks and feels.
+                Choose how PromptCraft looks and feels.
               </CardDescription>
             </CardHeader>
             <CardContent>

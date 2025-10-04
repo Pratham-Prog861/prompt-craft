@@ -1,11 +1,11 @@
 "use client";
 
-import PreviewWindow from '@/components/webgenius/PreviewWindow';
-import ResponsiveControls from '@/components/webgenius/ResponsiveControls';
-import { useWebGeniusStore } from '@/store/useWebGeniusStore';
+import PreviewWindow from '@/components/PromptCraft/PreviewWindow';
+import ResponsiveControls from '@/components/PromptCraft/ResponsiveControls';
+import { usePromptCraftStore } from '@/store/usePromptCraftStore';
 
 export default function CenterPanel() {
-  const { isLoading } = useWebGeniusStore();
+  const { isLoading } = usePromptCraftStore();
 
   return (
     <div className="flex flex-col h-full bg-background/50">

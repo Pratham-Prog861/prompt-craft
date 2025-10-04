@@ -23,7 +23,7 @@ function Navbar() {
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
             <Bot className="h-6 w-6" />
-            <span>WebGenius</span>
+            <span>PromptCraft</span>
           </Link>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
@@ -68,7 +68,7 @@ function CtaSection() {
           Ready to Build Your Dream Website?
         </h2>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/80">
-          Stop wrestling with code and complex builders. With WebGenius, you're just one prompt away from a stunning, professional website.
+          Stop wrestling with code and complex builders. With PromptCraft, you're just one prompt away from a stunning, professional website.
         </p>
         <div className="mt-8">
           <Button size="lg" asChild>
@@ -102,7 +102,7 @@ function ContactSection({ onChatOpen }: { onChatOpen: () => void }) {
                     <div>
                         <h3 className="text-lg font-semibold">Email</h3>
                         <p className="text-foreground/80">Drop us a line anytime.</p>
-                        <a href="mailto:hello@webgenius.com" className="text-primary hover:underline">hello@webgenius.com</a>
+                        <a href="mailto:hello@PromptCraft.com" className="text-primary hover:underline">pratham8355@gmail.com</a>
                     </div>
                 </div>
                  <div className="flex items-start gap-4">
@@ -149,7 +149,7 @@ function Footer() {
           <div className="md:col-span-2">
             <h3 className="flex items-center gap-2 text-xl font-bold font-headline text-primary">
                 <Bot className="h-6 w-6" />
-                WebGenius
+                PromptCraft
             </h3>
             <p className="mt-2 text-sm text-foreground/70 max-w-sm">The smartest, fastest way to bring your web ideas to life. AI-powered, developer-approved.</p>
           </div>
@@ -164,14 +164,24 @@ function Footer() {
           <div>
             <h4 className="font-semibold text-sm tracking-wider uppercase">Connect</h4>
             <div className="mt-4 flex space-x-4">
-              <a href="#" className="text-foreground/70 hover:text-primary"><Twitter className="h-5 w-5" /></a>
-              <a href="#" className="text-foreground/70 hover:text-primary"><Github className="h-5 w-5" /></a>
-              <a href="#" className="text-foreground/70 hover:text-primary"><Linkedin className="h-5 w-5" /></a>
+              <a
+               href="https://github.com/Pratham-Prog861" 
+               target='_blank'
+               rel='noreferrer'
+               className="text-foreground/70 hover:text-primary">
+                <Github className="h-5 w-5" />
+              </a>
+              <a href="https://www.linkedin.com/in/pratham-darji-b704092a2/"
+               target='_blank'
+               rel='noreferrer'
+               className="text-foreground/70 hover:text-primary">
+                <Linkedin className="h-5 w-5" />
+              </a>
             </div>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} WebGenius. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} PromptCraft. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -225,8 +235,8 @@ function FeaturesSection() {
       {
         title: "AI-Powered Generation",
         description: "Describe your vision in plain English and our AI will generate the layout, content, and styling for you.",
-        image: PlaceHolderImages[0].imageUrl,
-        hint: PlaceHolderImages[0].imageHint,
+        image: PlaceHolderImages[4].imageUrl,
+        hint: PlaceHolderImages[4].imageHint,
       },
       {
         title: "Real-Time Visual Editor",
@@ -248,7 +258,7 @@ function FeaturesSection() {
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold font-headline">The Future of Web Creation</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/80">
-              WebGenius combines cutting-edge AI with a powerful visual editor.
+              PromptCraft combines cutting-edge AI with a powerful visual editor.
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">

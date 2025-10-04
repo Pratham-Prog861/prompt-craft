@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import { useWebGeniusStore, Message } from '@/store/useWebGeniusStore';
-import ChatMessage from '@/components/webgenius/ChatMessage';
+import { usePromptCraftStore, Message } from '@/store/usePromptCraftStore';
+import ChatMessage from '@/components/PromptCraft/ChatMessage';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Send, CornerDownLeft } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function ChatArea() {
-  const { messages, processPrompt, isLoading } = useWebGeniusStore();
+  const { messages, processPrompt, isLoading } = usePromptCraftStore();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
