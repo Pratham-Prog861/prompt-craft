@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "1",
+      "description": "Abstract pink and blue architecture",
+      "imageUrl": "https://images.unsplash.com/photo-1501619438411-47314d5a0580?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NTk0NjQwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract architecture"
+    },
+    {
+      "id": "2",
+      "description": "A person working on a laptop",
+      "imageUrl": "https://images.unsplash.com/photo-1541560052-5e137f229371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBsYXB0b3B8ZW58MHx8fHwxNzU5NDc5NDE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person laptop"
+    },
+    {
+      "id": "3",
+      "description": "A modern city skyline at dusk",
+      "imageUrl": "https://images.unsplash.com/photo-1544214036-5aaeb9e32d11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2l0eSUyMHNreWxpbmV8ZW58MHx8fHwxNzU5NDg2MjkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city skyline"
+    },
+    {
+      "id": "4",
+      "description": "Serene forest with sunbeams",
+      "imageUrl": "https://images.unsplash.com/photo-1611530866681-61929483ad62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmb3Jlc3QlMjBzdW5iZWFtc3xlbnwwfHx8fDE3NTk1MDgzNDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "forest sunbeams"
+    }
+  ]
 }
