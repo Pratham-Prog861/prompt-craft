@@ -48,7 +48,7 @@ export function AuthForm() {
     try {
       await signInWithPopup(auth, provider);
       toast({ title: 'Successfully signed in with Google!' });
-      router.push('/studio');
+      router.push('/');
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -65,7 +65,7 @@ export function AuthForm() {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       toast({ title: 'Successfully logged in!' });
-      router.push('/studio');
+      router.push('/');
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -82,7 +82,7 @@ export function AuthForm() {
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
       toast({ title: 'Registration successful!', description: 'You can now log in.' });
-       router.push('/studio');
+       router.push('/');
     } catch (error: any) {
        toast({
         variant: 'destructive',
