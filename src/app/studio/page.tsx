@@ -8,14 +8,20 @@ import { useWebGeniusStore } from '@/store/useWebGeniusStore';
 function StudioPageContent() {
   const searchParams = useSearchParams();
   const processPrompt = useWebGeniusStore((state) => state.processPrompt);
+  const loadProject = useWebGeniusStore((state) => state.loadProject);
   const messages = useWebGeniusStore((state) => state.messages);
+  const projectIdStore = useWebGeniusStore((state) => state.projectId);
 
   useEffect(() => {
     const prompt = searchParams.get('prompt');
-    if (prompt && messages.length === 0) {
+    const projectId = searchParams.get('projectId');
+    
+    if (projectId && projectId !== projectIdStore) {
+        loadProject(projectId);
+    } else if (prompt && messages.length === 0) {
       processPrompt(prompt);
     }
-  }, [searchParams, processPrompt, messages.length]);
+  }, [searchParams, processPrompt, loadProject, messages.length, projectIdStore]);
 
   return <WebGeniusApp />;
 }

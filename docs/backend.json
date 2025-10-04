@@ -6,49 +6,16 @@
       "type": "object",
       "description": "Represents a user of the WebGenius application.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the User entity."
-        },
-        "email": {
-          "type": "string",
-          "description": "User's email address.",
-          "format": "email"
-        },
-        "name": {
-          "type": "string",
-          "description": "User's full name."
-        },
-        "profilePictureUrl": {
-          "type": "string",
-          "description": "URL of the user's profile picture.",
-          "format": "uri"
-        },
-        "signUpDate": {
-          "type": "string",
-          "description": "Date and time when the user signed up.",
-          "format": "date-time"
-        },
-        "lastLogin": {
-          "type": "string",
-          "description": "Date and time of the user's last login.",
-          "format": "date-time"
-        },
-        "isVerified": {
-          "type": "boolean",
-          "description": "Indicates whether the user's email is verified."
-        },
-        "googleId": {
-          "type": "string",
-          "description": "User ID from Google authentication, if applicable."
-        }
+        "id": { "type": "string", "description": "Unique identifier for the User entity." },
+        "email": { "type": "string", "description": "User's email address.", "format": "email" },
+        "name": { "type": "string", "description": "User's full name." },
+        "profilePictureUrl": { "type": "string", "description": "URL of the user's profile picture.", "format": "uri" },
+        "signUpDate": { "type": "string", "description": "Date and time when the user signed up.", "format": "date-time" },
+        "lastLogin": { "type": "string", "description": "Date and time of the user's last login.", "format": "date-time" },
+        "isVerified": { "type": "boolean", "description": "Indicates whether the user's email is verified." },
+        "googleId": { "type": "string", "description": "User ID from Google authentication, if applicable." }
       },
-      "required": [
-        "id",
-        "email",
-        "name",
-        "signUpDate"
-      ]
+      "required": ["id", "email", "name", "signUpDate"]
     },
     "WebsiteProject": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -56,48 +23,29 @@
       "type": "object",
       "description": "Represents a website project created by a user.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the WebsiteProject entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to User. (Relationship: User 1:N WebsiteProject)"
-        },
-        "projectName": {
-          "type": "string",
-          "description": "Name of the website project."
-        },
-        "creationDate": {
-          "type": "string",
-          "description": "Date and time when the project was created.",
-          "format": "date-time"
-        },
-        "lastModifiedDate": {
-          "type": "string",
-          "description": "Date and time when the project was last modified.",
-          "format": "date-time"
-        },
-        "projectDescription": {
-          "type": "string",
-          "description": "Description of the website project."
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "description": "URL of the project thumbnail image.",
-          "format": "uri"
-        },
-        "websiteCode": {
-          "type": "string",
-          "description": "The generated code for the website project"
-        }
+        "id": { "type": "string", "description": "Unique identifier for the WebsiteProject entity." },
+        "userId": { "type": "string", "description": "Reference to User. (Relationship: User 1:N WebsiteProject)" },
+        "projectName": { "type": "string", "description": "Name of the website project." },
+        "creationDate": { "type": "string", "description": "Date and time when the project was created.", "format": "date-time" },
+        "lastModifiedDate": { "type": "string", "description": "Date and time when the project was last modified.", "format": "date-time" },
+        "projectDescription": { "type": "string", "description": "Description of the website project." },
+        "thumbnailUrl": { "type": "string", "description": "URL of the project thumbnail image.", "format": "uri" },
+        "websiteCode": { "type": "string", "description": "The generated code for the website project" }
       },
-      "required": [
-        "id",
-        "userId",
-        "projectName",
-        "creationDate"
-      ]
+      "required": ["id", "userId", "projectName", "creationDate"]
+    },
+    "DashboardProject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DashboardProject",
+      "type": "object",
+      "description": "A simplified view of a website project for dashboard display.",
+      "properties": {
+        "projectName": { "type": "string" },
+        "projectDescription": { "type": "string" },
+        "lastModifiedDate": { "type": "string", "format": "date-time" },
+        "thumbnailUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["projectName", "lastModifiedDate"]
     },
     "PromptHistory": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -105,35 +53,13 @@
       "type": "object",
       "description": "Represents a history of prompts used to generate a website.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the PromptHistory entity."
-        },
-        "websiteProjectId": {
-          "type": "string",
-          "description": "Reference to WebsiteProject. (Relationship: WebsiteProject 1:N PromptHistory)"
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "Timestamp of when the prompt was submitted.",
-          "format": "date-time"
-        },
-        "promptText": {
-          "type": "string",
-          "description": "The text of the prompt submitted."
-        },
-        "aiResponse": {
-          "type": "string",
-          "description": "The AI's response to the prompt."
-        }
+        "id": { "type": "string", "description": "Unique identifier for the PromptHistory entity." },
+        "websiteProjectId": { "type": "string", "description": "Reference to WebsiteProject. (Relationship: WebsiteProject 1:N PromptHistory)" },
+        "timestamp": { "type": "string", "description": "Timestamp of when the prompt was submitted.", "format": "date-time" },
+        "promptText": { "type": "string", "description": "The text of the prompt submitted." },
+        "aiResponse": { "type": "string", "description": "The AI's response to the prompt." }
       },
-      "required": [
-        "id",
-        "websiteProjectId",
-        "timestamp",
-        "promptText",
-        "aiResponse"
-      ]
+      "required": ["id", "websiteProjectId", "timestamp", "promptText", "aiResponse"]
     },
     "Template": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -141,45 +67,18 @@
       "type": "object",
       "description": "Represents a website template.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Template entity."
-        },
-        "templateName": {
-          "type": "string",
-          "description": "Name of the template."
-        },
-        "templateDescription": {
-          "type": "string",
-          "description": "Description of the template."
-        },
-        "templateCode": {
-          "type": "string",
-          "description": "The HTML/CSS/JS code for the template."
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "description": "URL of the template thumbnail image.",
-          "format": "uri"
-        },
-        "category": {
-          "type": "string",
-          "description": "Category of the template (e.g., 'Business', 'Portfolio')."
-        }
+        "id": { "type": "string", "description": "Unique identifier for the Template entity." },
+        "templateName": { "type": "string", "description": "Name of the template." },
+        "templateDescription": { "type": "string", "description": "Description of the template." },
+        "templateCode": { "type": "string", "description": "The HTML/CSS/JS code for the template." },
+        "thumbnailUrl": { "type": "string", "description": "URL of the template thumbnail image.", "format": "uri" },
+        "category": { "type": "string", "description": "Category of the template (e.g., 'Business', 'Portfolio')." }
       },
-      "required": [
-        "id",
-        "templateName",
-        "templateCode"
-      ]
+      "required": ["id", "templateName", "templateCode"]
     }
   },
   "auth": {
-    "providers": [
-      "password",
-      "anonymous",
-      "google.com"
-    ]
+    "providers": ["password", "anonymous", "google.com"]
   },
   "firestore": {
     "structure": [
@@ -187,35 +86,20 @@
         "path": "/users/{userId}",
         "definition": {
           "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/User"
-          },
+          "schema": { "$ref": "#/backend/entities/User" },
           "description": "Stores user profile information.  This is the root for all user-owned data.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            }
-          ]
+          "params": [{ "name": "userId", "description": "The unique identifier for the user." }]
         }
       },
       {
         "path": "/users/{userId}/websiteProjects/{websiteProjectId}",
         "definition": {
           "entityName": "WebsiteProject",
-          "schema": {
-            "$ref": "#/backend/entities/WebsiteProject"
-          },
+          "schema": { "$ref": "#/backend/entities/WebsiteProject" },
           "description": "Stores website projects created by the user. Enforces path-based ownership.",
           "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            },
-            {
-              "name": "websiteProjectId",
-              "description": "The unique identifier for the website project."
-            }
+            { "name": "userId", "description": "The unique identifier for the user." },
+            { "name": "websiteProjectId", "description": "The unique identifier for the website project." }
           ]
         }
       },
@@ -223,23 +107,12 @@
         "path": "/users/{userId}/websiteProjects/{websiteProjectId}/promptHistories/{promptHistoryId}",
         "definition": {
           "entityName": "PromptHistory",
-          "schema": {
-            "$ref": "#/backend/entities/PromptHistory"
-          },
+          "schema": { "$ref": "#/backend/entities/PromptHistory" },
           "description": "Stores the history of prompts for each website project. Enforces path-based ownership.",
           "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            },
-            {
-              "name": "websiteProjectId",
-              "description": "The unique identifier for the website project."
-            },
-            {
-              "name": "promptHistoryId",
-              "description": "The unique identifier for the prompt history entry."
-            }
+            { "name": "userId", "description": "The unique identifier for the user." },
+            { "name": "websiteProjectId", "description": "The unique identifier for the website project." },
+            { "name": "promptHistoryId", "description": "The unique identifier for the prompt history entry." }
           ]
         }
       },
@@ -247,16 +120,9 @@
         "path": "/templates/{templateId}",
         "definition": {
           "entityName": "Template",
-          "schema": {
-            "$ref": "#/backend/entities/Template"
-          },
+          "schema": { "$ref": "#/backend/entities/Template" },
           "description": "Stores website templates available for all users.",
-          "params": [
-            {
-              "name": "templateId",
-              "description": "The unique identifier for the template."
-            }
-          ]
+          "params": [{ "name": "templateId", "description": "The unique identifier for the template." }]
         }
       }
     ],

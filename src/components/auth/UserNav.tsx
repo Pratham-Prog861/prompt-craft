@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useUser } from '@/firebase';
 import { getAuth, signOut } from 'firebase/auth';
-import { LogOut, User as UserIcon, CreditCard, Settings } from 'lucide-react';
+import { LogOut, User as UserIcon, CreditCard, Settings, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -57,6 +57,12 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <Link href="/projects" passHref>
+            <DropdownMenuItem>
+              <LayoutGrid className="mr-2 h-4 w-4" />
+              <span>My Projects</span>
+            </DropdownMenuItem>
+          </Link>
           <Link href="/profile" passHref>
             <DropdownMenuItem>
               <UserIcon className="mr-2 h-4 w-4" />
